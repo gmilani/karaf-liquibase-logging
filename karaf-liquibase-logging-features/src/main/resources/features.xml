@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @formatter:off -->
+<features name="liquibase-logging-osgi-${project.parent.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.6.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0 http://karaf.apache.org/xmlns/features/v1.5.0">
+
+    <repository>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</repository>
+
+    <feature name="karaf-liquibase-logging">
+        <feature version="${project.parent.version}">h2-datasource</feature>
+
+        <bundle>mvn:com.github.gmilani/karaf-liquibase-logging-app/${project.parent.version}</bundle>
+        <bundle>mvn:org.liquibase/liquibase-core/${liquibase.version}</bundle>
+        <bundle>mvn:com.mattbertolini/liquibase-slf4j/4.1.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="h2-datasource" version="${project.parent.version}">
+        <feature>jdbc</feature>
+        <feature>pax-jdbc-config</feature>
+        <feature>pax-jdbc-hsqldb</feature>
+        <config name="org.ops4j.datasource-h2">
+            osgi.jdbc.driver.name=hsqldb
+            databaseName=test
+            user=user
+            password=
+            dataSourceName=testds-hsqldb
+            ops4j.preHook=liquibaseMigrator
+            url=jdbc:hsqldb:mem:.
+        </config>
+        <capability>
+            osgi.service;objectClass=javax.sql.DataSource;effective:=active;osgi.jndi.service.name=testds-hsqldb
+        </capability>
+    </feature>
+
+</features>
+<!-- @formatter:on -->
