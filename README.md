@@ -90,3 +90,5 @@ ID │ State    │ Lvl │ Version            │ Name
 To show the logs, use `log:display`
 
 You can display a bundle's headers with `bundle:headers <bundle-id>`
+
+To leave the console, use `logout`.
